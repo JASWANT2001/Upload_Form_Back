@@ -4,6 +4,8 @@ const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
+const dotenv = require("dotenv"); 
+dotenv.config();
 
 // Create uploads directory if not exists
 const uploadsDir = "./uploads";
@@ -16,10 +18,10 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/formdb')
+const URL = process.env.DB; // Use the DB URL from .env
+mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
-
 
 // Multer for file uploads
 const storage = multer.diskStorage({
